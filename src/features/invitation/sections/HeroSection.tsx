@@ -29,7 +29,7 @@ export function HeroSection() {
         ))}
       </h1>
       <p className="page-lead" data-reveal>
-        Los hijos son herencia del Señor. Salmo 127:3.
+        Un rinconcito del bosque encantado para celebrar su dulce llegada.
       </p>
       <button
         type="button"
