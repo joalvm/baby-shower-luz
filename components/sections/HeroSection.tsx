@@ -1,21 +1,45 @@
 "use client";
 
+import { Fragment } from "react";
+import { InvitationPage } from "@/components/InvitationPage";
+import { Icon } from "@/components/ui/Icon";
 import { useInvitation } from "@/hooks/useInvitation";
 
 export function HeroSection() {
   const { babyName } = useInvitation();
+  const words = babyName.split(" ");
 
   return (
-    <section className="segment segment-hero" data-section id="inicio">
-      <div className="segment-inner hero-inner">
-        <p className="script-kicker" data-reveal>
-          Baby Shower
-        </p>
-        <h1 data-reveal>{babyName}</h1>
-        <p className="lead-copy" data-reveal>
-          Una tarde para celebrar la dulce espera en un bosque encantado de acuarela.
-        </p>
-      </div>
-    </section>
+    <InvitationPage id="inicio" wash="hero" align="center" tone="page-hero" priority>
+      <p className="page-eyebrow" data-reveal>
+        <Icon name="sparkle" /> Nuestro Baby Shower
+      </p>
+      <h1 className="page-title" data-hero-title aria-label={babyName}>
+        {words.map((word, wi) => (
+          <Fragment key={wi}>
+            {wi > 0 ? " " : null}
+            <span className="hero-word">
+              {word.split("").map((ch, ci) => (
+                <span className="hero-letter" key={ci} aria-hidden="true">
+                  {ch}
+                </span>
+              ))}
+            </span>
+          </Fragment>
+        ))}
+      </h1>
+      <p className="page-lead" data-reveal>
+        Un rinconcito del bosque encantado para celebrar su dulce llegada.
+      </p>
+      <button
+        type="button"
+        className="scroll-cue"
+        data-reveal
+        data-scroll-to="#familia"
+        aria-label="Ver la invitación"
+      >
+        <Icon name="chevron-down" />
+      </button>
+    </InvitationPage>
   );
 }

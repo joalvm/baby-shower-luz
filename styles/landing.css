@@ -1,3 +1,6 @@
+/* ---------------------------------------------------------------------------
+   Shell + ambient background
+--------------------------------------------------------------------------- */
 .landing-shell {
   position: relative;
   isolation: isolate;
@@ -8,347 +11,637 @@
 .landing-main {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.single-watercolor-bg {
+.ambient {
   position: fixed;
-  inset: -15vh -4vw;
+  inset: 0;
   z-index: -3;
-  min-height: 130vh;
+  overflow: hidden;
   pointer-events: none;
+}
+
+.ambient-wash {
+  position: absolute;
+  inset: -8vh -6vw;
   transform-origin: center;
 }
 
-.single-watercolor-bg::after {
-  content: "";
+.ambient-img {
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(1.04) blur(5px);
+}
+
+.ambient-vignette {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 18%, rgba(255, 253, 246, 0.34), transparent 28rem),
-    radial-gradient(circle at 12% 38%, rgba(255, 221, 230, 0.36), transparent 25rem),
-    linear-gradient(180deg, rgba(255, 239, 243, 0.52), rgba(255, 231, 238, 0.66));
+    radial-gradient(120% 90% at 50% 42%, transparent 46%, rgba(154, 79, 102, 0.16) 100%),
+    radial-gradient(70% 55% at 50% 30%, rgba(255, 252, 246, 0.4), transparent 70%),
+    linear-gradient(180deg, rgba(255, 246, 249, 0.28), rgba(240, 214, 224, 0.22));
 }
 
-.single-watercolor-img {
-  filter: saturate(0.86) sepia(0.08) hue-rotate(7deg);
-  object-fit: cover;
-  object-position: 64% center;
-}
-
-.paper-grain {
-  position: fixed;
+.ambient-decor {
+  position: absolute;
   inset: 0;
-  z-index: 40;
+}
+
+/* ---------------------------------------------------------------------------
+   Floating sprites (shared)
+--------------------------------------------------------------------------- */
+.sprite {
+  position: absolute;
+  display: block;
   pointer-events: none;
-  opacity: 0.24;
-  mix-blend-mode: multiply;
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(123, 82, 103, 0.08) 0 0.055rem, transparent 0.06rem),
-    radial-gradient(circle at 80% 10%, rgba(123, 82, 103, 0.06) 0 0.045rem, transparent 0.05rem),
-    radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.42) 0 0.08rem, transparent 0.085rem);
-  background-size: 2.6rem 2.6rem, 3.2rem 3.2rem, 4rem 4rem;
+  will-change: transform;
+  filter: drop-shadow(0 0.5rem 0.9rem rgba(154, 79, 102, 0.12));
 }
 
-.segment {
+.sprite-img {
+  object-fit: contain;
+}
+
+.ambient-decor {
+  display: none;
+}
+
+@media (min-width: 1120px) {
+  .ambient-decor {
+    display: block;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Invitation pages (portrait cards)
+--------------------------------------------------------------------------- */
+.invite-page {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-block: clamp(0.5rem, 1.5vh, 1.1rem);
+  padding-inline: var(--page-x);
+}
+
+.page-hero {
+  padding-top: clamp(1rem, 3.5vh, 2.25rem);
+}
+
+.page-farewell {
+  padding-bottom: clamp(2.5rem, 7vh, 5rem);
+}
+
+.invite-card {
   position: relative;
-  display: grid;
-  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  width: var(--card-w);
+  min-height: calc(var(--card-w) * 1672 / 941);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  background: var(--color-cream);
+}
+
+.invite-wash {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  will-change: transform;
+}
+
+.invite-wash-img {
+  object-fit: cover;
+  object-position: center;
+}
+
+.invite-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.invite-scrim-top {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 252, 246, 0.62) 0%,
+    rgba(255, 252, 246, 0.32) 26%,
+    rgba(255, 252, 246, 0) 52%
+  );
+}
+
+.invite-scrim-center {
+  background: radial-gradient(
+    68% 46% at 50% 50%,
+    rgba(255, 252, 246, 0.6),
+    rgba(255, 252, 246, 0) 72%
+  );
+}
+
+.invite-decor {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.invite-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  overflow: clip;
-  padding: clamp(5rem, 9vw, 8rem) var(--page-x);
+  gap: clamp(0.7rem, 2.4vw, 1.05rem);
+  width: 100%;
+  height: 100%;
+  padding: clamp(1.5rem, 6%, 2.4rem);
+  text-align: center;
 }
 
-.segment-inner {
-  width: min(100%, 72rem);
-  margin-inline: auto;
+.invite-content-top {
+  justify-content: flex-start;
+  padding-top: clamp(2rem, 9%, 3.4rem);
 }
 
-.script-kicker {
+.invite-content-center {
+  justify-content: center;
+  /* bias the block slightly above the true center */
+  padding-bottom: clamp(3.5rem, 30%, 6rem);
+}
+
+/* ---------------------------------------------------------------------------
+   Typography primitives
+--------------------------------------------------------------------------- */
+.page-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
   margin: 0;
   color: var(--color-rose-deep);
+  font-family: var(--font-body);
+  font-size: clamp(0.66rem, 2.7vw, 0.8rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.page-eyebrow svg {
+  color: var(--color-gold);
+  font-size: 1.1em;
+}
+
+.page-title {
+  margin: 0;
+  color: var(--color-rose-ink);
   font-family: var(--font-title);
-  font-size: clamp(2rem, 4vw, 3.15rem);
   font-weight: 400;
-  line-height: 1.04;
+  font-size: clamp(3.6rem, 20vw, 5.4rem);
+  line-height: 0.86;
   text-wrap: balance;
 }
 
-.segment h1,
-.segment h2 {
+.page-heading {
   margin: 0;
-  color: #985f70;
+  max-width: 15ch;
+  color: var(--color-rose-ink);
   font-family: var(--font-title);
   font-weight: 400;
-  letter-spacing: 0;
-  line-height: 0.96;
+  font-size: clamp(2.25rem, 11vw, 3.1rem);
+  line-height: 0.98;
   text-wrap: balance;
 }
 
-.segment h1 {
-  font-size: clamp(3.35rem, 7.4vw, 5.65rem);
-}
-
-.segment h2 {
-  font-size: clamp(2.55rem, 5.6vw, 4rem);
-}
-
-.lead-copy,
-.body-copy,
-.event-card p {
+.page-lead,
+.page-body {
   margin: 0;
-  max-width: 36rem;
+  max-width: 28ch;
   color: var(--color-ink-soft);
-  font-size: clamp(1rem, 1.35vw, 1.16rem);
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 3.7vw, 1.05rem);
   font-weight: 500;
-  line-height: 1.7;
+  line-height: 1.56;
   text-wrap: pretty;
 }
 
-.hero-inner {
+/* ---------------------------------------------------------------------------
+   Hero extras
+--------------------------------------------------------------------------- */
+.hero-word {
+  display: inline;
+  white-space: nowrap;
+}
+
+.hero-letter {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: clamp(1.1rem, 4%, 1.8rem);
+  left: 50%;
   display: grid;
-  justify-items: center;
-  gap: clamp(0.45rem, 1.7vw, 0.9rem);
-  text-align: center;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  padding: 0;
+  transform: translateX(-50%);
+  border: 1px solid var(--panel-border);
+  border-radius: 999px;
+  background: var(--panel-bg-strong);
+  color: var(--color-rose-deep);
+  font-size: 1.15rem;
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 200ms ease,
+    background 200ms ease,
+    box-shadow 200ms ease;
+  animation: scroll-cue-bob 2.1s ease-in-out infinite;
 }
 
-.hero-inner h1 {
-  color: #95576a;
-  max-width: 10ch;
+.scroll-cue:hover {
+  background: var(--color-cream);
+  box-shadow: 0 0.9rem 1.8rem rgba(154, 79, 102, 0.22);
 }
 
-.hero-inner .lead-copy {
-  max-width: 35rem;
+.scroll-cue:active {
+  transform: translate(-50%, 2px);
 }
 
-.family-inner {
-  display: grid;
-  width: min(100%, 42rem);
-  justify-items: center;
-  gap: clamp(1.5rem, 4vw, 2.4rem);
-  text-align: center;
+.scroll-cue:focus-visible {
+  outline: 3px solid rgba(176, 101, 121, 0.4);
+  outline-offset: 4px;
 }
 
-.family-copy {
-  display: grid;
-  justify-items: center;
-  gap: 1rem;
+@keyframes scroll-cue-bob {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, 5px);
+  }
 }
 
-.family-copy h2 {
-  max-width: 13ch;
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue {
+    animation: none;
+  }
 }
 
+/* ---------------------------------------------------------------------------
+   Family roles
+--------------------------------------------------------------------------- */
 .family-roles {
-  width: min(100%, 34rem);
   display: grid;
-  gap: 0;
-  margin: 0;
-  border-block: 1px solid var(--border-soft);
+  gap: 0.85rem;
+  width: min(100%, 20rem);
+  margin: 0.4rem 0 0;
+  /* extra bottom padding = a small ledge the photos hang from */
+  padding: clamp(1.05rem, 5%, 1.5rem) 1.25rem 1.7rem;
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-panel);
+  background: var(--panel-bg);
+  backdrop-filter: blur(var(--panel-blur));
+  box-shadow: var(--shadow-soft);
 }
 
 .family-roles div {
   display: grid;
-  grid-template-columns: 7rem minmax(0, 1fr);
-  gap: 1.2rem;
-  align-items: baseline;
-  padding: clamp(1.05rem, 2vw, 1.45rem) 0;
+  gap: 0.15rem;
 }
 
 .family-roles div + div {
-  border-top: 1px solid rgba(111, 70, 90, 0.13);
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(154, 79, 102, 0.14);
 }
 
 .family-roles dt {
   color: var(--color-ink-muted);
-  font-size: clamp(0.82rem, 1.2vw, 0.96rem);
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
 .family-roles dd {
   margin: 0;
-  color: #96586b;
+  color: var(--color-rose-ink);
   font-family: var(--font-title);
-  font-size: clamp(2.15rem, 4.2vw, 3.25rem);
+  font-size: clamp(1.9rem, 8.5vw, 2.5rem);
   font-weight: 400;
-  line-height: 0.98;
-  text-wrap: balance;
+  line-height: 1;
 }
 
-.countdown-inner {
-  display: grid;
-  justify-items: center;
-  gap: clamp(0.8rem, 2.4vw, 1.5rem);
-  text-align: center;
+/* ---------------------------------------------------------------------------
+   Family photos — polaroids hanging from a string, swayed by the breeze
+--------------------------------------------------------------------------- */
+.family-photos {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: clamp(0.5rem, 3vw, 1rem);
+  width: min(100%, 21rem);
 }
 
-.countdown-inner h2 {
-  max-width: 14ch;
+.photo-card {
+  position: relative;
+  margin: 0;
+  width: clamp(4.4rem, 26vw, 6rem);
+  padding: 0.4rem 0.4rem 0.7rem;
+  border: 1px solid var(--panel-border);
+  border-radius: 0.5rem;
+  background: var(--color-cream);
+  box-shadow: var(--shadow-soft);
+  transform-origin: top center;
+  will-change: transform;
 }
 
-.countdown-grid {
-  display: grid;
-  width: min(100%, 58rem);
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(0.65rem, 2vw, 1.25rem);
-  margin-top: clamp(0.8rem, 3vw, 1.6rem);
+.photo-card:nth-child(2) {
+  transform: rotate(-3deg);
 }
 
-.countdown-item {
-  min-width: 0;
-  border: 1px solid rgba(111, 70, 90, 0.16);
-  border-radius: var(--radius-panel);
-  background: var(--color-paper);
-  padding: clamp(0.9rem, 2.3vw, 1.45rem) clamp(0.55rem, 1.8vw, 1rem);
+.photo-card:nth-child(3) {
+  transform: rotate(2deg);
+}
+
+.photo-card:nth-child(4) {
+  transform: rotate(-1.5deg);
+}
+
+/* thread hanging from the names-card edge down to each photo */
+.photo-card::before {
+  content: "";
+  position: absolute;
+  top: -2.2rem;
+  left: 50%;
+  width: 1.5px;
+  height: 2.2rem;
+  transform: translateX(-50%);
+  background: rgba(154, 79, 102, 0.42);
+}
+
+/* the tack pinned into the names card's bottom edge, holding the thread */
+.photo-pin {
+  position: absolute;
+  top: -2.55rem;
+  left: 50%;
+  z-index: 2;
+  width: 0.72rem;
+  height: 0.72rem;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, #f2b9cb 0%, var(--color-rose) 42%, var(--color-rose-deep) 100%);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.74),
-    0 1.4rem 3.6rem rgba(var(--shadow-rose) / 0.1);
-  backdrop-filter: blur(12px);
+    0 2px 3px rgba(154, 79, 102, 0.5),
+    inset 0 -1px 2px rgba(154, 79, 102, 0.4);
 }
 
-.countdown-item strong {
-  display: block;
-  color: #9b5d70;
-  font-family: var(--font-body);
-  font-size: clamp(2.35rem, 7vw, 5.1rem);
-  font-variant-numeric: tabular-nums lining-nums;
-  font-weight: 700;
-  line-height: 0.95;
-}
-
-.countdown-item span {
-  display: block;
-  margin-top: 0.45rem;
-  color: var(--color-ink-muted);
-  font-size: clamp(0.78rem, 1.45vw, 0.96rem);
-  font-weight: 700;
-}
-
-.event-inner {
+.photo-frame {
+  position: relative;
   display: grid;
-  justify-items: center;
-  gap: clamp(0.8rem, 2.5vw, 1.3rem);
+  place-items: center;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 0.25rem;
+  background: linear-gradient(160deg, #fbeef1, #f0d6e0);
+  color: var(--color-rose-deep);
+  font-family: var(--font-title);
+  font-size: clamp(1.7rem, 8vw, 2.2rem);
+  line-height: 1;
+}
+
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-card figcaption {
+  margin-top: 0.4rem;
+  color: var(--color-rose-ink);
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   text-align: center;
 }
 
-.event-card {
-  width: min(100%, 39rem);
-  display: grid;
-  gap: clamp(1.25rem, 3vw, 2rem);
-  border-block: 1px solid var(--border-soft);
-  padding: clamp(1.25rem, 4vw, 2.3rem) 0;
+/* ---------------------------------------------------------------------------
+   Countdown
+--------------------------------------------------------------------------- */
+.countdown {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(0.2rem, 1.2vw, 0.5rem);
+  max-width: 100%;
+  margin-top: 0.5rem;
+  padding: clamp(0.7rem, 3.5%, 1.1rem) clamp(0.65rem, 3.5%, 1.4rem);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-panel);
+  background: var(--panel-bg);
+  backdrop-filter: blur(var(--panel-blur));
+  box-shadow: var(--shadow-soft);
 }
 
-.event-date-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(5rem, 0.6fr) minmax(0, 1fr);
-  align-items: stretch;
+.countdown-group {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: clamp(0.2rem, 1.2vw, 0.5rem);
 }
 
-.event-date-grid > * {
+.countdown-unit {
   display: grid;
-  min-height: clamp(3.8rem, 8vw, 5.8rem);
-  place-items: center;
-  padding: 0.4rem clamp(0.45rem, 2vw, 1.2rem);
-  color: #6e4e58;
-  font-size: clamp(0.98rem, 1.7vw, 1.16rem);
+  gap: 0.15rem;
+  justify-items: center;
+}
+
+.countdown-unit strong {
+  color: var(--color-rose-ink);
+  font-family: var(--font-body);
+  font-size: clamp(1.35rem, 7vw, 2.4rem);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.countdown-unit span {
+  color: var(--color-ink-muted);
+  font-size: clamp(0.55rem, 2.2vw, 0.68rem);
   font-weight: 700;
-  line-height: 1.12;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.countdown-colon {
+  color: var(--color-rose-deep);
+  font-family: var(--font-body);
+  font-size: clamp(1.1rem, 5.5vw, 2rem);
+  font-style: normal;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* ---------------------------------------------------------------------------
+   Event details
+--------------------------------------------------------------------------- */
+.event-card {
+  display: grid;
+  justify-items: center;
+  gap: 0.7rem;
+  width: min(100%, 20rem);
+  margin: 0.4rem 0 0;
+  padding: clamp(1.35rem, 6%, 1.8rem) clamp(1.15rem, 5.5%, 1.6rem);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-panel);
+  background: var(--panel-bg-strong);
+  backdrop-filter: blur(var(--panel-blur));
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+}
+
+.event-date {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+}
+
+.event-day {
+  color: var(--color-rose-ink);
+  font-family: var(--font-body);
+  font-size: clamp(3rem, 16vw, 4rem);
+  font-variant-numeric: lining-nums;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.event-monthyear {
+  padding-left: 0.9rem;
+  border-left: 1px solid rgba(154, 79, 102, 0.22);
+  text-align: left;
+  color: var(--color-ink-soft);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.event-when {
+  margin: 0;
+  color: var(--color-rose-deep);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 700;
   text-transform: capitalize;
 }
 
-.event-date-grid > :nth-child(2),
-.event-date-grid > :nth-child(5) {
-  border-inline: 1px solid rgba(111, 70, 90, 0.22);
+.event-place {
+  margin: 0;
+  max-width: 26ch;
+  color: var(--color-ink-soft);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.45;
 }
 
-.event-date-grid strong {
-  color: #9b5d70;
-  font-family: var(--font-title);
-  font-size: clamp(2.8rem, 5.8vw, 4rem);
-  font-weight: 400;
-  line-height: 0.9;
+/* ---------------------------------------------------------------------------
+   Farewell
+--------------------------------------------------------------------------- */
+.farewell-sign {
+  margin: 0.3rem 0 0;
+  color: var(--color-rose-ink);
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 4vw, 1.15rem);
+  font-weight: 700;
+  line-height: 1.7;
 }
 
-.event-card p {
-  max-width: 34rem;
-  margin-inline: auto;
-}
-
-.rsvp-inner {
-  width: min(100%, 40rem);
-  margin-inline: auto;
-  display: grid;
-  justify-items: center;
-  gap: 1rem;
-  text-align: center;
-}
-
-.rsvp-inner h2 {
-  max-width: 13ch;
-}
-
-.farewell-inner {
-  display: grid;
-  justify-items: center;
-  gap: 1rem;
-  text-align: center;
-}
-
-.farewell-inner h2 {
-  max-width: 12ch;
-}
-
-.farewell-inner .body-copy {
-  max-width: 34rem;
+/* ---------------------------------------------------------------------------
+   Buttons
+--------------------------------------------------------------------------- */
+.page-actions {
+  margin-top: 0.35rem;
 }
 
 .animated-button {
-  --button-bg: #a86276;
+  --button-bg: linear-gradient(180deg, #c47c90, #a85a71);
   --button-color: var(--color-cream);
 
   position: relative;
   display: inline-flex;
-  min-height: 3.25rem;
-  width: fit-content;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(111, 70, 90, 0.15);
+  gap: 0.5rem;
+  min-height: 3rem;
+  width: fit-content;
+  padding: 0.85rem 1.5rem;
+  border: 1px solid rgba(154, 79, 102, 0.18);
   border-radius: 999px;
   background: var(--button-bg);
-  box-shadow: 0 1.2rem 2.8rem rgba(var(--shadow-rose) / 0.18);
   color: var(--button-color);
-  font-size: 0.98rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
   font-weight: 800;
   line-height: 1;
-  padding: 0.9rem 1.45rem;
-  transition:
-    background 220ms ease,
-    box-shadow 220ms ease;
   white-space: nowrap;
+  box-shadow: 0 1.1rem 2.4rem rgba(var(--shadow-rose) / 0.28);
+  transition:
+    filter 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.animated-button svg {
+  font-size: 1.15em;
 }
 
 .animated-button-soft {
-  --button-bg: rgba(255, 253, 246, 0.84);
-  --button-color: #875161;
+  --button-bg: var(--panel-bg-strong);
+  --button-color: var(--color-rose-ink);
 
+  border-color: var(--panel-border);
+  backdrop-filter: blur(var(--panel-blur));
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.78),
-    0 1.2rem 2.8rem rgba(var(--shadow-rose) / 0.12);
-  backdrop-filter: blur(12px);
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 1.1rem 2.4rem rgba(var(--shadow-rose) / 0.16);
 }
 
 .animated-button:hover {
-  background: #b06d80;
-  box-shadow: 0 1.45rem 3.1rem rgba(var(--shadow-rose) / 0.2);
-}
-
-.animated-button-soft:hover {
-  background: rgba(255, 253, 246, 0.96);
+  filter: brightness(1.04);
+  box-shadow: 0 1.35rem 2.8rem rgba(var(--shadow-rose) / 0.32);
 }
 
 .animated-button:focus-visible {
-  outline: 3px solid rgba(168, 99, 121, 0.34);
-  outline-offset: 5px;
+  outline: 3px solid rgba(176, 101, 121, 0.4);
+  outline-offset: 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   Credit
+--------------------------------------------------------------------------- */
+.site-credit {
+  position: relative;
+  z-index: 1;
+  padding: 1rem 1rem 2.25rem;
+  text-align: center;
+  color: rgba(106, 74, 85, 0.32);
+  font-family: var(--font-body);
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.site-credit span {
+  color: rgba(106, 74, 85, 0.42);
+  font-weight: 600;
 }

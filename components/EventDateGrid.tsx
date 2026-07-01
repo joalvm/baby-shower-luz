@@ -6,16 +6,19 @@ export function EventDateGrid() {
   const { address, eventDateParts } = useInvitation();
 
   return (
-    <div className="event-card" data-reveal data-drift="1.05">
-      <div className="event-date-grid" aria-label="Fecha y hora del evento">
-        <span>{eventDateParts.weekday}</span>
-        <strong>{eventDateParts.day}</strong>
-        <span>{eventDateParts.month}</span>
-        <span>{eventDateParts.time}</span>
-        <span aria-hidden="true" />
-        <span>{eventDateParts.year}</span>
+    <div className="event-card" data-reveal>
+      <div className="event-date" aria-label="Fecha del evento">
+        <span className="event-day">{eventDateParts.day}</span>
+        <span className="event-monthyear">
+          {eventDateParts.month}
+          <br />
+          {eventDateParts.year}
+        </span>
       </div>
-      <p>{address}</p>
+      <p className="event-when">
+        {eventDateParts.weekday} · {eventDateParts.time}
+      </p>
+      <p className="event-place">{address}</p>
     </div>
   );
 }

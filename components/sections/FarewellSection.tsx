@@ -1,21 +1,25 @@
 "use client";
 
+import { InvitationPage } from "@/components/InvitationPage";
+import { Icon } from "@/components/ui/Icon";
 import { useInvitation } from "@/hooks/useInvitation";
 
 export function FarewellSection() {
   const { babyName, fatherName, motherName } = useInvitation();
 
   return (
-    <section className="segment segment-farewell" data-section id="despedida">
-      <div className="segment-inner farewell-inner">
-        <p className="script-kicker" data-reveal>
-          Te esperamos
-        </p>
-        <h2 data-reveal>Gracias por acompañar esta espera</h2>
-        <p className="body-copy" data-reveal>
-          Con mucho amor, {motherName}, {fatherName} y {babyName}.
-        </p>
-      </div>
-    </section>
+    <InvitationPage id="despedida" wash="goodbye" align="center" tone="page-farewell">
+      <p className="page-eyebrow" data-reveal>
+        <Icon name="heart" /> Te esperamos
+      </p>
+      <h2 className="page-heading" data-reveal>
+        Gracias por acompañar esta espera
+      </h2>
+      <p className="farewell-sign" data-reveal>
+        Con cariño,
+        <br />
+        {motherName}, {fatherName} &amp; {babyName}
+      </p>
+    </InvitationPage>
   );
 }

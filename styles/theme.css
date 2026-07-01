@@ -1,23 +1,41 @@
 :root {
-  --color-background: #fff7f8;
-  --color-foreground: #664751;
-  --color-ink: #664751;
-  --color-ink-soft: rgba(102, 71, 81, 0.76);
-  --color-ink-muted: rgba(102, 71, 81, 0.58);
-  --color-paper: rgba(255, 253, 246, 0.72);
-  --color-paper-strong: rgba(255, 253, 246, 0.9);
-  --color-rose: #f1bdcb;
-  --color-rose-deep: #a95f72;
+  /* Palette — palorosa acuarela / bosque encantado */
+  --color-background: #fbeef1;
+  --color-foreground: #6a4a55;
+  --color-ink: #6a4a55;
+  --color-ink-soft: rgba(106, 74, 85, 0.78);
+  --color-ink-muted: rgba(106, 74, 85, 0.56);
+
+  --color-rose: #e7a9bd;
+  --color-rose-deep: #b06579;
+  --color-rose-ink: #9a4f66;
   --color-mauve: #a77c91;
-  --color-lavender: #ddd0e5;
-  --color-sage: #8f9b7c;
-  --color-cream: #fffdf6;
-  --shadow-rose: 151 83 103;
-  --border-soft: rgba(151, 83, 103, 0.2);
-  --radius-panel: 1.1rem;
+  --color-lavender: #c9b6db;
+  --color-sage: #9aa886;
+  --color-cream: #fffdf7;
+  --color-gold: #c79a4e;
+
+  /* Frosted "paper" panel */
+  --panel-bg: rgba(255, 252, 246, 0.72);
+  --panel-bg-strong: rgba(255, 252, 246, 0.86);
+  --panel-border: rgba(154, 79, 102, 0.16);
+  --panel-blur: 12px;
+
+  --shadow-rose: 154 79 102;
+  --shadow-card: 0 1.3rem 2.8rem -1.4rem rgba(154, 79, 102, 0.28);
+  --shadow-soft: 0 1rem 2.4rem rgba(154, 79, 102, 0.14);
+
+  --radius-card: 1.75rem;
+  --radius-panel: 1.15rem;
+  --radius-chip: 0.95rem;
+
+  /* Invitation card sizing (portrait 941:1672 ≈ 9:16) */
+  --card-w: min(92vw, 27rem);
+  --card-ratio: 941 / 1672;
+
   --font-title: "Sacramento";
   --font-body: "Nunito";
-  --page-x: clamp(1.15rem, 5vw, 5.5rem);
+  --page-x: clamp(1rem, 4vw, 2.5rem);
 }
 
 @theme inline {

@@ -1,78 +1,47 @@
-@media (max-width: 900px) {
-  .segment {
-    padding-inline: clamp(1rem, 5vw, 2rem);
+/* Mobile-first base lives in landing.css. These are breakpoint refinements. */
+
+/* Small phones — keep the card comfy and the content breathing. */
+@media (max-width: 380px) {
+  :root {
+    --card-w: 94vw;
   }
 
-  .family-inner {
-    grid-template-columns: 1fr;
+  .invite-content {
+    padding-inline: 1.15rem;
   }
 
-  .family-copy h2,
-  .rsvp-inner h2 {
-    max-width: 12ch;
-  }
-
-  .rsvp-inner {
-    margin-inline: auto;
+  .invite-content-top {
+    padding-top: 1.9rem;
   }
 }
 
-@media (max-width: 640px) {
-  .single-watercolor-bg {
-    inset-inline: -22vw;
+/* Short viewports (landscape phones) — don't force the tall card too big. */
+@media (max-height: 680px) and (min-width: 640px) {
+  .invite-card {
+    min-height: min(calc(var(--card-w) * 1672 / 941), 90dvh);
+  }
+}
+
+/* Tablet and up — a touch more presence, more air between pages. */
+@media (min-width: 768px) {
+  :root {
+    --card-w: min(60vw, 27.5rem);
   }
 
-  .segment {
-    min-height: 100dvh;
-    padding-block: clamp(4.4rem, 12vh, 6.2rem);
+  .invite-page {
+    padding-block: clamp(0.75rem, 2vh, 1.5rem);
   }
+}
 
-  .segment h1 {
-    font-size: clamp(3rem, 13.5vw, 4.35rem);
+/* Desktop — floating card with ambient scenery around it. */
+@media (min-width: 1120px) {
+  :root {
+    --card-w: 28rem;
   }
+}
 
-  .segment h2 {
-    font-size: clamp(2.35rem, 10.2vw, 3.55rem);
-  }
-
-  .script-kicker {
-    font-size: clamp(1.85rem, 8.8vw, 2.7rem);
-  }
-
-  .lead-copy,
-  .body-copy,
-  .event-card p {
-    font-size: 1rem;
-    line-height: 1.58;
-  }
-
-  .family-roles div {
-    grid-template-columns: 1fr;
-    gap: 0.35rem;
-  }
-
-  .family-roles dd {
-    font-size: clamp(2rem, 9vw, 2.85rem);
-  }
-
-  .countdown-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .event-date-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(4.2rem, 0.62fr) minmax(0, 1fr);
-  }
-
-  .event-date-grid > * {
-    min-height: 4rem;
-    font-size: 0.95rem;
-  }
-
-  .event-date-grid strong {
-    font-size: clamp(2.45rem, 10vw, 3.25rem);
-  }
-
-  .animated-button {
-    width: min(100%, 18rem);
+@media (min-width: 1600px) {
+  :root {
+    --card-w: 29rem;
   }
 }

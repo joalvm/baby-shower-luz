@@ -22,6 +22,9 @@ export default function Home() {
           <RsvpSection />
           <FarewellSection />
         </main>
+        <footer className="site-credit">
+          Diseñado con cariño por <span>Alejandro Vilchez</span>
+        </footer>
       </ScrollExperience>
     </InvitationProvider>
   );

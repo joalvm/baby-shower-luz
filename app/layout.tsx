@@ -9,7 +9,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Baby Shower de Amber Eileen",
-  description: "Invitación interactiva con acuarela, parallax y scroll suave.",
+  description: "Invitación digital en acuarela — un bosque encantado para celebrar su llegada.",
 };
 
 export default function RootLayout({

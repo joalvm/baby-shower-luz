@@ -1,20 +1,21 @@
 "use client";
 
 import { CountdownTimer } from "@/components/CountdownTimer";
+import { InvitationPage } from "@/components/InvitationPage";
 import { useInvitation } from "@/hooks/useInvitation";
 
 export function CountdownSection() {
   const { babyName } = useInvitation();
 
   return (
-    <section className="segment segment-countdown" data-section id="cuenta">
-      <div className="segment-inner countdown-inner">
-        <p className="script-kicker" data-reveal>
-          ¿Cuánto falta?
-        </p>
-        <h2 data-reveal>Muy pronto conoceremos a {babyName}</h2>
-        <CountdownTimer />
-      </div>
-    </section>
+    <InvitationPage id="cuenta" wash="opening" align="center" tone="page-countdown">
+      <p className="page-eyebrow" data-reveal>
+        Falta muy poco
+      </p>
+      <h2 className="page-heading" data-reveal>
+        Pronto conoceremos a {babyName}
+      </h2>
+      <CountdownTimer />
+    </InvitationPage>
   );
 }
