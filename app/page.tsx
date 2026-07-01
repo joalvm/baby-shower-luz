@@ -1,4 +1,5 @@
 import { getInvitationConfig } from "@/config/invitation";
+import { getInvitationEventJsonLd } from "@/config/structuredData";
 import { ScrollExperience } from "@/features/invitation/components/ScrollExperience";
 import { InvitationProvider } from "@/features/invitation/providers/InvitationProvider";
 import { CountdownSection } from "@/features/invitation/sections/CountdownSection";
@@ -10,9 +11,16 @@ import { RsvpSection } from "@/features/invitation/sections/RsvpSection";
 
 export default function Home() {
   const invitation = getInvitationConfig();
+  const eventJsonLd = getInvitationEventJsonLd(invitation);
 
   return (
     <InvitationProvider value={invitation}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(eventJsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <ScrollExperience>
         <main className="landing-main">
           <HeroSection />

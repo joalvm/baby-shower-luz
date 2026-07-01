@@ -18,8 +18,10 @@ function buildInvitationConfig() {
     address,
     babyName,
     birthDateTime,
+    eventDateTime: normalizedEventDateTime,
     eventDateParts: formatEventDateParts(normalizedEventDateTime),
     fatherName,
+    locationCoordinates: coordinates,
     mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
       coordinates,
     )}`,

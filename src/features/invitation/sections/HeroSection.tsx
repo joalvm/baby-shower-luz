@@ -12,7 +12,7 @@ export function HeroSection() {
   return (
     <InvitationPage id="inicio" wash="hero" align="center" tone="page-hero" priority>
       <p className="page-eyebrow" data-reveal>
-        <Icon name="sparkle" /> Nuestro Baby Shower
+        <Icon name="sparkle" /> My Baby Shower
       </p>
       <h1 className="page-title" data-hero-title aria-label={babyName}>
         {words.map((word, wi) => (
@@ -29,7 +29,7 @@ export function HeroSection() {
         ))}
       </h1>
       <p className="page-lead" data-reveal>
-        Un rinconcito del bosque encantado para celebrar su dulce llegada.
+        Los hijos son herencia del Señor. Salmo 127:3.
       </p>
       <button
         type="button"
