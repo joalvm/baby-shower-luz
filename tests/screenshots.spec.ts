@@ -7,14 +7,12 @@ import { test } from "@playwright/test";
  */
 
 const SECTIONS = [
-  { id: "abrir", label: "opening" },
   { id: "inicio", label: "hero" },
-  { id: "nombre", label: "nombre" },
   { id: "familia", label: "familia" },
   { id: "cuenta", label: "cuenta" },
-  { id: "datos", label: "datos" },
+  { id: "evento", label: "evento" },
   { id: "confirmar", label: "rsvp" },
-  { id: "final", label: "final" },
+  { id: "despedida", label: "despedida" },
 ] as const;
 
 test.describe("Screenshots", () => {

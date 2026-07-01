@@ -7,17 +7,7 @@ import { test, expect } from "@playwright/test";
 
 const IGNORED_DECORATIVE = [
   "single-watercolor-bg",
-  "cloud-svg",
-  "tree-svg",
-  "butterfly-svg",
-  "garden-svg",
-  "flower-bundle",
-  "fairy-svg",
-  "butterflies",
-  "falling-leaves",
-  "ground-layers",
   "paper-grain",
-  "wash-layer",
 ];
 
 test("no hay scroll horizontal en el documento", async ({ page }) => {

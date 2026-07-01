@@ -1,0 +1,78 @@
+@media (max-width: 900px) {
+  .segment {
+    padding-inline: clamp(1rem, 5vw, 2rem);
+  }
+
+  .family-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .family-copy h2,
+  .rsvp-inner h2 {
+    max-width: 12ch;
+  }
+
+  .rsvp-inner {
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .single-watercolor-bg {
+    inset-inline: -22vw;
+  }
+
+  .segment {
+    min-height: 100dvh;
+    padding-block: clamp(4.4rem, 12vh, 6.2rem);
+  }
+
+  .segment h1 {
+    font-size: clamp(3rem, 13.5vw, 4.35rem);
+  }
+
+  .segment h2 {
+    font-size: clamp(2.35rem, 10.2vw, 3.55rem);
+  }
+
+  .script-kicker {
+    font-size: clamp(1.85rem, 8.8vw, 2.7rem);
+  }
+
+  .lead-copy,
+  .body-copy,
+  .event-card p {
+    font-size: 1rem;
+    line-height: 1.58;
+  }
+
+  .family-roles div {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .family-roles dd {
+    font-size: clamp(2rem, 9vw, 2.85rem);
+  }
+
+  .countdown-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .event-date-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(4.2rem, 0.62fr) minmax(0, 1fr);
+  }
+
+  .event-date-grid > * {
+    min-height: 4rem;
+    font-size: 0.95rem;
+  }
+
+  .event-date-grid strong {
+    font-size: clamp(2.45rem, 10vw, 3.25rem);
+  }
+
+  .animated-button {
+    width: min(100%, 18rem);
+  }
+}

@@ -5,32 +5,33 @@ test.describe("Invitación - smoke", () => {
     await page.goto("/");
 
     await expect(page).toHaveTitle(/Baby Shower/i);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      "Una invitación pintada para",
-    );
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Amber Eileen");
   });
 
-  test('el enlace "Abrir invitación" lleva a la sección inicio', async ({ page }) => {
-    await page.goto("/");
-
-    const abrir = page.getByRole("link", { name: "Abrir invitación" });
-    await expect(abrir).toBeVisible();
-    await abrir.click();
-
-    await expect(page).toHaveURL(/#inicio$/);
-    await expect(page.locator("#inicio")).toBeVisible();
-  });
-
-  test("muestra el nombre del bebé y los padres", async ({ page }) => {
+  test("muestra familia y cuenta regresiva", async ({ page }) => {
     await page.goto("/");
 
     await expect(page.getByText("Amber Eileen", { exact: true })).toBeVisible();
-    await expect(page.getByText("Aurora y Luis")).toBeVisible();
+    await page.locator("#familia").scrollIntoViewIfNeeded();
+    await expect(page.getByText("Aurora", { exact: true })).toBeVisible();
+    await expect(page.getByText("Luis", { exact: true })).toBeVisible();
+    await expect(page.getByText("Mía Hellen", { exact: true })).toBeVisible();
+    await page.locator("#cuenta").scrollIntoViewIfNeeded();
+    await expect(page.getByText("¿Cuánto falta?")).toBeVisible();
+  });
+
+  test('el botón "Ver mapa" enlaza a Google Maps', async ({ page }) => {
+    await page.goto("/");
+
+    await page.locator("#evento").scrollIntoViewIfNeeded();
+    const mapa = page.getByRole("link", { name: "Ver mapa" });
+    await expect(mapa).toHaveAttribute("href", /google\.com\/maps/);
   });
 
   test('el botón "Confirmar asistencia" enlaza a WhatsApp', async ({ page }) => {
     await page.goto("/");
 
+    await page.locator("#confirmar").scrollIntoViewIfNeeded();
     const confirmar = page.getByRole("link", { name: "Confirmar asistencia" });
     await expect(confirmar).toHaveAttribute("href", /wa\.me/);
   });
