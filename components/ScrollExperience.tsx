@@ -7,7 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
-import { Sprite } from "@/components/ui/Sprite";
+import { withBasePath } from "@/utils/assets/withBasePath";
 import "@/utils/gsap/registerGsap";
 
 type ScrollExperienceProps = {
@@ -53,15 +53,16 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
       gsap.ticker.add(tick);
       gsap.ticker.lagSmoothing(0);
 
-      // Ambient watercolor breathes very slightly through the scroll.
+      // Ambient scenery breathes very slightly through the scroll.
+      // Small scale so the full panorama stays readable on large screens.
       if (ambientRef.current) {
         gsap.fromTo(
           ambientRef.current,
-          { yPercent: -4, scale: 1.05 },
+          { yPercent: -3, scale: 1.02 },
           {
             ease: "none",
-            yPercent: 4,
-            scale: 1.12,
+            yPercent: 3,
+            scale: 1.05,
             scrollTrigger: {
               trigger: rootRef.current,
               start: "top top",
@@ -205,9 +206,19 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
   return (
     <div className="landing-shell" ref={rootRef}>
       <div className="ambient" aria-hidden="true">
+        {/* blurred bleed fills the letterbox bands when the full panorama is shown */}
+        <div className="ambient-bleed">
+          <Image
+            src={withBasePath("/assets/optimized/backgrounds/background.webp")}
+            alt=""
+            fill
+            sizes="100vw"
+            className="ambient-bleed-img"
+          />
+        </div>
         <div className="ambient-wash" ref={ambientRef}>
           <Image
-            src="/assets/backgrounds/watercolor.png"
+            src={withBasePath("/assets/optimized/backgrounds/background.webp")}
             alt=""
             fill
             priority
@@ -216,14 +227,6 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
           />
         </div>
         <div className="ambient-vignette" />
-        <div className="ambient-decor">
-          <Sprite name="butterfly" width="7rem" float={16} drift={1.4} style={{ top: "10%", left: "6%" }} />
-          <Sprite name="flower-open" width="9rem" float={10} drift={0.8} style={{ top: "34%", left: "3%" }} opacity={0.9} />
-          <Sprite name="shrub" width="16rem" float={0} drift={0.5} style={{ bottom: "-2%", left: "-3%" }} opacity={0.85} />
-          <Sprite name="butterfly" width="5.5rem" float={20} drift={1.7} style={{ top: "22%", right: "7%" }} />
-          <Sprite name="flower-closed" width="6.5rem" float={12} drift={1} style={{ top: "56%", right: "4%" }} opacity={0.9} />
-          <Sprite name="shrub" width="15rem" float={0} drift={0.5} style={{ bottom: "-3%", right: "-4%", transform: "scaleX(-1)" }} opacity={0.85} />
-        </div>
       </div>
       {children}
     </div>

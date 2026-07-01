@@ -26,14 +26,30 @@
 
 .ambient-wash {
   position: absolute;
-  inset: -8vh -6vw;
+  inset: 0;
   transform-origin: center;
 }
 
+/* Mobile / tablet: crop into the panorama so a lively slice shows. */
 .ambient-img {
   object-fit: cover;
   object-position: center;
-  filter: saturate(1.04) blur(5px);
+  filter: saturate(1.05) blur(2px);
+}
+
+/* Blurred copy that bleeds behind the full panorama to fill letterbox bands.
+   Only needed on large screens where the wash switches to `contain`. */
+.ambient-bleed {
+  position: absolute;
+  inset: 0;
+  display: none;
+}
+
+.ambient-bleed-img {
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.12);
+  filter: saturate(1.05) blur(34px);
 }
 
 .ambient-vignette {
@@ -43,11 +59,6 @@
     radial-gradient(120% 90% at 50% 42%, transparent 46%, rgba(154, 79, 102, 0.16) 100%),
     radial-gradient(70% 55% at 50% 30%, rgba(255, 252, 246, 0.4), transparent 70%),
     linear-gradient(180deg, rgba(255, 246, 249, 0.28), rgba(240, 214, 224, 0.22));
-}
-
-.ambient-decor {
-  position: absolute;
-  inset: 0;
 }
 
 /* ---------------------------------------------------------------------------
@@ -65,12 +76,13 @@
   object-fit: contain;
 }
 
-.ambient-decor {
-  display: none;
-}
-
+/* Large screens: show the whole panorama; blurred bleed fills the gaps. */
 @media (min-width: 1120px) {
-  .ambient-decor {
+  .ambient-img {
+    object-fit: contain;
+  }
+
+  .ambient-bleed {
     display: block;
   }
 }

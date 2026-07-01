@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { InvitationPage } from "@/components/InvitationPage";
 import { useInvitation } from "@/hooks/useInvitation";
+import { withBasePath } from "@/utils/assets/withBasePath";
 
 export function FamilySection() {
   const { fatherName, motherName, sisterName } = useInvitation();
@@ -40,7 +41,12 @@ export function FamilySection() {
             <span className="photo-pin" aria-hidden="true" />
             <div className="photo-frame">
               {person.src ? (
-                <Image src={person.src} alt={`${person.role}: ${person.name}`} fill sizes="6rem" />
+                <Image
+                  src={withBasePath(person.src)}
+                  alt={`${person.role}: ${person.name}`}
+                  fill
+                  sizes="6rem"
+                />
               ) : (
                 <span aria-hidden="true">{person.name.charAt(0)}</span>
               )}

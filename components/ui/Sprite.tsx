@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
+import { withBasePath } from "@/utils/assets/withBasePath";
 
 const DIMENSIONS: Record<string, { w: number; h: number }> = {
   butterfly: { w: 1254, h: 1254 },
@@ -40,7 +41,7 @@ export function Sprite({ name, width, style, className, drift, float, opacity }:
       aria-hidden="true"
     >
       <Image
-        src={`/assets/optimized/sprites/${name}.webp`}
+        src={withBasePath(`/assets/optimized/sprites/${name}.webp`)}
         alt=""
         fill
         sizes={width}

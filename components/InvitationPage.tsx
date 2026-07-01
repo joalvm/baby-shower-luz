@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
+import { withBasePath } from "@/utils/assets/withBasePath";
 
 type WashName =
   | "hero"
@@ -43,7 +44,7 @@ export function InvitationPage({
       <article className="invite-card">
         <div className="invite-wash" data-drift="0.35">
           <Image
-            src={`/assets/optimized/story/${wash}-wash.webp`}
+            src={withBasePath(`/assets/optimized/story/${wash}-wash.webp`)}
             alt=""
             fill
             priority={priority}
