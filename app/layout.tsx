@@ -44,8 +44,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: getAbsoluteUrl("/meta/og-invitation.png"),
-        width: 1491,
-        height: 1055,
+        width: 1492,
+        height: 1054,
         alt: "My Baby Shower de Amber Eileen. Sábado 18 de julio de 2026, 7:30 PM.",
       },
     ],
