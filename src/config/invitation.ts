@@ -4,7 +4,7 @@ import { normalizeLimaDateTime } from "@/utils/date/normalizeLimaDateTime";
 function buildInvitationConfig() {
   const babyName = process.env.BABY_NAME ?? "Amber Eileen";
   const birthDate = process.env.BABY_BIRTHDATE ?? "2026-08-10";
-  const eventDateTime = process.env.EVENT_DATETIME ?? "2026-07-18T18:00:00";
+  const eventDateTime = process.env.EVENT_DATETIME ?? "2026-07-18T19:30:00";
   const fatherName = process.env.FATHER_NAME ?? "Luis";
   const motherName = process.env.MOTHER_NAME ?? "Aurora";
   const sisterName = process.env.SISTER_NAME ?? "Mía Hellen";
