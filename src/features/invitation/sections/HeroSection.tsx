@@ -1,9 +1,9 @@
 "use client";
 
 import { Fragment } from "react";
-import { InvitationPage } from "@/components/InvitationPage";
-import { Icon } from "@/components/ui/Icon";
-import { useInvitation } from "@/hooks/useInvitation";
+import { InvitationPage } from "@/features/invitation/components/InvitationPage";
+import { useInvitation } from "@/features/invitation/hooks/useInvitation";
+import { Icon } from "@/shared/ui/Icon";
 
 export function HeroSection() {
   const { babyName } = useInvitation();

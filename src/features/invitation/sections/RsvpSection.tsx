@@ -1,9 +1,9 @@
 "use client";
 
-import { InvitationPage } from "@/components/InvitationPage";
-import { AnimatedButton } from "@/components/ui/AnimatedButton";
-import { Icon } from "@/components/ui/Icon";
-import { useInvitation } from "@/hooks/useInvitation";
+import { InvitationPage } from "@/features/invitation/components/InvitationPage";
+import { useInvitation } from "@/features/invitation/hooks/useInvitation";
+import { AnimatedButton } from "@/shared/ui/AnimatedButton";
+import { Icon } from "@/shared/ui/Icon";
 
 export function RsvpSection() {
   const { babyName, rsvpUrl } = useInvitation();

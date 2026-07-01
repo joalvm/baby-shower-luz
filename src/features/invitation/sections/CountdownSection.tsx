@@ -1,8 +1,8 @@
 "use client";
 
-import { CountdownTimer } from "@/components/CountdownTimer";
-import { InvitationPage } from "@/components/InvitationPage";
-import { useInvitation } from "@/hooks/useInvitation";
+import { CountdownTimer } from "@/features/invitation/components/CountdownTimer";
+import { InvitationPage } from "@/features/invitation/components/InvitationPage";
+import { useInvitation } from "@/features/invitation/hooks/useInvitation";
 
 export function CountdownSection() {
   const { babyName } = useInvitation();

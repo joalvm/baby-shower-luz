@@ -1,12 +1,12 @@
-import { getInvitationConfig } from "../config/invitation";
-import { InvitationProvider } from "../providers/InvitationProvider";
-import { ScrollExperience } from "../components/ScrollExperience";
-import { CountdownSection } from "../components/sections/CountdownSection";
-import { EventDetailsSection } from "../components/sections/EventDetailsSection";
-import { FamilySection } from "../components/sections/FamilySection";
-import { FarewellSection } from "../components/sections/FarewellSection";
-import { HeroSection } from "../components/sections/HeroSection";
-import { RsvpSection } from "../components/sections/RsvpSection";
+import { getInvitationConfig } from "@/config/invitation";
+import { ScrollExperience } from "@/features/invitation/components/ScrollExperience";
+import { InvitationProvider } from "@/features/invitation/providers/InvitationProvider";
+import { CountdownSection } from "@/features/invitation/sections/CountdownSection";
+import { EventDetailsSection } from "@/features/invitation/sections/EventDetailsSection";
+import { FamilySection } from "@/features/invitation/sections/FamilySection";
+import { FarewellSection } from "@/features/invitation/sections/FarewellSection";
+import { HeroSection } from "@/features/invitation/sections/HeroSection";
+import { RsvpSection } from "@/features/invitation/sections/RsvpSection";
 
 export default function Home() {
   const invitation = getInvitationConfig();

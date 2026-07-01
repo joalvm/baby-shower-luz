@@ -1,8 +1,8 @@
 "use client";
 
-import { useInvitation } from "@/hooks/useInvitation";
+import { useCountdown } from "@/features/invitation/hooks/useCountdown";
+import { useInvitation } from "@/features/invitation/hooks/useInvitation";
 import { padTimeValue } from "@/utils/countdown/padTimeValue";
-import { useCountdown } from "../hooks/useCountdown";
 
 export function CountdownTimer() {
   const { birthDateTime } = useInvitation();

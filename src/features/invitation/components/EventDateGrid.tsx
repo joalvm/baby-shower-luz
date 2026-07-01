@@ -1,6 +1,6 @@
 "use client";
 
-import { useInvitation } from "@/hooks/useInvitation";
+import { useInvitation } from "@/features/invitation/hooks/useInvitation";
 
 export function EventDateGrid() {
   const { address, eventDateParts } = useInvitation();

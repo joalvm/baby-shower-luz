@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { InvitationPage } from "@/components/InvitationPage";
-import { useInvitation } from "@/hooks/useInvitation";
+import { InvitationPage } from "@/features/invitation/components/InvitationPage";
+import { useInvitation } from "@/features/invitation/hooks/useInvitation";
 import { withBasePath } from "@/utils/assets/withBasePath";
 
 export function FamilySection() {

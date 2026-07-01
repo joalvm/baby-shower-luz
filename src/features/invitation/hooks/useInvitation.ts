@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext } from "react";
-import { InvitationContext } from "@/providers/InvitationProvider";
+import { InvitationContext } from "@/features/invitation/providers/InvitationProvider";
 
 export function useInvitation() {
   const invitation = useContext(InvitationContext);
