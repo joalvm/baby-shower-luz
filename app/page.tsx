@@ -1,6 +1,9 @@
 import { getInvitationConfig } from "@/config/invitation";
 import { getInvitationEventJsonLd } from "@/config/structuredData";
+import { IntroCurtain } from "@/features/invitation/components/IntroCurtain";
 import { ScrollExperience } from "@/features/invitation/components/ScrollExperience";
+import { SoundToggle } from "@/features/invitation/components/SoundToggle";
+import { AmbientAudioProvider } from "@/features/invitation/providers/AmbientAudioProvider";
 import { InvitationProvider } from "@/features/invitation/providers/InvitationProvider";
 import { ArrivalSection } from "@/features/invitation/sections/ArrivalSection";
 import { BlessingSection } from "@/features/invitation/sections/BlessingSection";
@@ -24,22 +27,26 @@ export default function Home() {
           __html: JSON.stringify(eventJsonLd).replace(/</g, "\\u003c"),
         }}
       />
-      <ScrollExperience>
-        <main className="landing-main">
-          <HeroSection />
-          <LoveVerseSection />
-          <FamilySection />
-          <ArrivalSection />
-          <CountdownSection />
-          <BlessingSection />
-          <EventDetailsSection />
-          <RsvpSection />
-          <FarewellSection />
-        </main>
-        <footer className="site-credit">
-          Diseñado con cariño por <span>Alejandro Vilchez</span>
-        </footer>
-      </ScrollExperience>
+      <AmbientAudioProvider>
+        <ScrollExperience>
+          <main className="landing-main">
+            <HeroSection />
+            <LoveVerseSection />
+            <FamilySection />
+            <ArrivalSection />
+            <CountdownSection />
+            <BlessingSection />
+            <EventDetailsSection />
+            <RsvpSection />
+            <FarewellSection />
+          </main>
+          <footer className="site-credit">
+            Diseñado con cariño por <span>Alejandro Vilchez</span>
+          </footer>
+        </ScrollExperience>
+        <IntroCurtain />
+        <SoundToggle />
+      </AmbientAudioProvider>
     </InvitationProvider>
   );
 }

@@ -32,6 +32,43 @@ img {
   color: var(--color-ink);
 }
 
+/* Freeze the page behind the intro curtain. */
+html.intro-locked,
+html.intro-locked body {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+
+/* Custom scrollbar — only on real pointer devices, where the native bar
+   looks heavy against the soft palette. */
+@media (pointer: fine) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(176, 101, 121, 0.55) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(199, 124, 144, 0.7), rgba(168, 90, 113, 0.7));
+    background-clip: padding-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(199, 124, 144, 0.92), rgba(168, 90, 113, 0.92));
+    background-clip: padding-box;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -722,6 +722,160 @@
 }
 
 /* ---------------------------------------------------------------------------
+   Intro curtain — sealed envelope opening beat
+--------------------------------------------------------------------------- */
+.intro-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1.5rem;
+  /* Opaque from the very first paint so the cards behind never flash through
+     on reload (the fade lives on the inner content, not this backdrop). */
+  background: radial-gradient(120% 90% at 50% 30%, #fdf3f5 0%, #f7e4ea 55%, #eed6df 100%);
+}
+
+@keyframes intro-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.intro-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1.4rem, 5vh, 2.4rem);
+  text-align: center;
+  animation: intro-in 0.5s ease-out both;
+}
+
+.intro-envelope {
+  position: relative;
+  width: clamp(15rem, 78vw, 23rem);
+  will-change: transform, opacity;
+}
+
+.intro-envelope-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 1.4rem 2.2rem rgba(154, 79, 102, 0.22));
+  animation: intro-float 5.5s ease-in-out infinite;
+}
+
+@keyframes intro-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2%);
+  }
+}
+
+/* Tap target sitting over the gold wax seal. */
+.intro-seal {
+  position: absolute;
+  top: 55%;
+  left: 48.5%;
+  width: 34%;
+  aspect-ratio: 1;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.intro-seal-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(199, 154, 78, 0.6);
+  animation: intro-seal-pulse 2.2s ease-out infinite;
+}
+
+@keyframes intro-seal-pulse {
+  0% {
+    transform: scale(0.72);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.55);
+    opacity: 0;
+  }
+}
+
+.intro-seal:focus-visible {
+  outline: 3px solid rgba(199, 154, 78, 0.55);
+  outline-offset: 4px;
+}
+
+.intro-hint-title {
+  margin: 0;
+  color: var(--color-rose-ink);
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: clamp(1rem, 4.5vw, 1.2rem);
+  letter-spacing: 0.02em;
+}
+
+.intro-hint-sub {
+  margin: 0.35rem 0 0;
+  color: var(--color-ink-muted);
+  font-family: var(--font-body);
+  font-size: clamp(0.62rem, 2vw, 0.72rem);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------------
+   Sound toggle
+--------------------------------------------------------------------------- */
+.sound-toggle {
+  position: fixed;
+  right: clamp(0.9rem, 3vw, 1.4rem);
+  bottom: clamp(0.9rem, 3vw, 1.4rem);
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  padding: 0;
+  border: 1px solid var(--panel-border);
+  border-radius: 999px;
+  background: var(--panel-bg-strong);
+  backdrop-filter: blur(var(--panel-blur));
+  color: var(--color-rose-deep);
+  font-size: 1.15rem;
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 180ms ease,
+    background 180ms ease;
+}
+
+.sound-toggle:hover {
+  background: var(--color-cream);
+}
+
+.sound-toggle:active {
+  transform: scale(0.94);
+}
+
+.sound-toggle:focus-visible {
+  outline: 3px solid rgba(176, 101, 121, 0.4);
+  outline-offset: 3px;
+}
+
+/* ---------------------------------------------------------------------------
    Credit
 --------------------------------------------------------------------------- */
 .site-credit {

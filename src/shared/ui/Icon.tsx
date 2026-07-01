@@ -7,7 +7,9 @@ export type IconName =
   | "heart"
   | "whatsapp"
   | "sparkle"
-  | "chevron-down";
+  | "chevron-down"
+  | "sound-on"
+  | "sound-off";
 
 type IconProps = SVGProps<SVGSVGElement> & {
   name: IconName;
@@ -51,6 +53,19 @@ const paths: Record<IconName, ReactNode> = {
     <path d="M12 3c.4 3.6 1.4 4.6 5 5-3.6.4-4.6 1.4-5 5-.4-3.6-1.4-4.6-5-5 3.6-.4 4.6-1.4 5-5Z" />
   ),
   "chevron-down": <path d="M6 9.5 12 15l6-5.5" strokeLinecap="round" strokeLinejoin="round" />,
+  "sound-on": (
+    <>
+      <path d="M4 9v6h3l5 4V5L7 9H4Z" strokeLinejoin="round" />
+      <path d="M16 9.5a3.5 3.5 0 0 1 0 5" strokeLinecap="round" />
+      <path d="M18.5 7a7 7 0 0 1 0 10" strokeLinecap="round" />
+    </>
+  ),
+  "sound-off": (
+    <>
+      <path d="M4 9v6h3l5 4V5L7 9H4Z" strokeLinejoin="round" />
+      <path d="m16 9.5 5 5M21 9.5l-5 5" strokeLinecap="round" />
+    </>
+  ),
 };
 
 export function Icon({ name, ...props }: IconProps) {

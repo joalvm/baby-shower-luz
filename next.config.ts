@@ -21,7 +21,17 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  allowedDevOrigins: ["127.0.0.1", "localhost"],
+  // Allow reaching the dev server from phones on the LAN (http://<ip>:3000).
+  // Without the device's origin here, Next 16 blocks its dev/HMR requests and
+  // the page never hydrates (no interactions, animations, or countdown).
+  allowedDevOrigins: [
+    "127.0.0.1",
+    "localhost",
+    "192.168.1.36",
+    "192.168.1.*",
+    "192.168.*.*",
+    "10.*.*.*",
+  ],
   devIndicators: false,
 };
 

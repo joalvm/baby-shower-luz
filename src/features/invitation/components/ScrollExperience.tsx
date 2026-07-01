@@ -22,6 +22,15 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
     () => {
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+      // Low-end / touch devices choke on continuous scrub + infinite tweens and
+      // smooth-scroll hijacking. Detect them and drop to a lean path: cheap
+      // transform/opacity reveals over native scroll, no perpetual animation.
+      const nav = navigator as Navigator & { deviceMemory?: number };
+      const coarse = window.matchMedia("(pointer: coarse)").matches;
+      const weakCpu = (nav.hardwareConcurrency ?? 8) <= 6;
+      const weakMem = (nav.deviceMemory ?? 8) <= 4;
+      const liteMode = coarse && (weakCpu || weakMem);
+
       // Wire the hero scroll cue (and any [data-scroll-to]) to jump to its target.
       const cueCleanups: Array<() => void> = [];
       const wireScrollCues = (scrollTo: (target: string) => void) => {
@@ -34,14 +43,60 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
         });
       };
 
+      // Content reveal — transform + opacity only (compositor-friendly, no
+      // blur/paint work). Used on every path so cards never stay hidden.
+      const buildReveals = () => {
+        gsap.utils.toArray<HTMLElement>("[data-section]").forEach((section) => {
+          const items = section.querySelectorAll<HTMLElement>("[data-reveal]");
+          if (!items.length) return;
+
+          gsap.fromTo(
+            items,
+            { autoAlpha: 0, y: 24 },
+            {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "power3.out",
+              stagger: 0.08,
+              scrollTrigger: {
+                trigger: section,
+                start: "top 72%",
+                toggleActions: "play none none reverse",
+              },
+            },
+          );
+        });
+      };
+
+      // Re-measure trigger positions once the intro curtain releases the scroll.
+      const onIntroOpen = () => ScrollTrigger.refresh();
+      window.addEventListener("intro:open", onIntroOpen);
+      const baseCleanup = () => {
+        window.removeEventListener("intro:open", onIntroOpen);
+        cueCleanups.forEach((fn) => fn());
+        ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      };
+
       if (reduceMotion) {
-        gsap.set("[data-reveal]", { autoAlpha: 1, y: 0, filter: "none" });
+        gsap.set("[data-reveal]", { autoAlpha: 1, y: 0 });
         wireScrollCues((target) =>
           document.querySelector(target)?.scrollIntoView({ behavior: "smooth", block: "start" }),
         );
-        return () => cueCleanups.forEach((fn) => fn());
+        return baseCleanup;
       }
 
+      if (liteMode) {
+        // Native scroll (no Lenis) + reveals only. No scrub, no idle loops.
+        buildReveals();
+        wireScrollCues((target) =>
+          document.querySelector(target)?.scrollIntoView({ behavior: "smooth", block: "start" }),
+        );
+        ScrollTrigger.refresh();
+        return baseCleanup;
+      }
+
+      // ---- Full experience (capable devices) -------------------------------
       const lenis = new Lenis({
         lerp: 0.09,
         smoothWheel: true,
@@ -54,7 +109,6 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
       gsap.ticker.lagSmoothing(0);
 
       // Ambient scenery breathes very slightly through the scroll.
-      // Small scale so the full panorama stays readable on large screens.
       if (ambientRef.current) {
         gsap.fromTo(
           ambientRef.current,
@@ -73,29 +127,7 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
         );
       }
 
-      // Per-page content reveal.
-      gsap.utils.toArray<HTMLElement>("[data-section]").forEach((section) => {
-        const items = section.querySelectorAll<HTMLElement>("[data-reveal]");
-        if (!items.length) return;
-
-        gsap.fromTo(
-          items,
-          { autoAlpha: 0, y: 26, filter: "blur(6px)" },
-          {
-            autoAlpha: 1,
-            y: 0,
-            filter: "blur(0px)",
-            duration: 0.9,
-            ease: "power3.out",
-            stagger: 0.09,
-            scrollTrigger: {
-              trigger: section,
-              start: "top 68%",
-              toggleActions: "play none none reverse",
-            },
-          },
-        );
-      });
+      buildReveals();
 
       // Subtle layered drift: sprites and washes move at their own depth.
       gsap.utils.toArray<HTMLElement>("[data-drift]").forEach((item) => {
@@ -134,14 +166,13 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
         });
       });
 
-      // Hero title — letters rise in on load.
+      // Hero title — letters rise in on load (transform + opacity only).
       const heroLetters = gsap.utils.toArray<HTMLElement>("[data-hero-title] .hero-letter");
       if (heroLetters.length) {
         gsap.from(heroLetters, {
           autoAlpha: 0,
           yPercent: 60,
-          filter: "blur(8px)",
-          duration: 0.9,
+          duration: 0.85,
           ease: "power3.out",
           stagger: 0.05,
           delay: 0.2,
@@ -149,37 +180,30 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
       }
 
       // Hanging family photos swing from their tack as if blown by the breeze.
+      // One combined tween per card (rotation + drift) instead of two timers.
       gsap.utils.toArray<HTMLElement>("[data-sway]").forEach((card, index) => {
         const amp = 4.5 + index * 0.8;
         gsap.set(card, { transformOrigin: "top center" });
         gsap.fromTo(
           card,
-          { rotation: -amp },
+          { rotation: -amp, xPercent: index % 2 === 0 ? -2 : 2 },
           {
             rotation: amp,
+            xPercent: index % 2 === 0 ? 2 : -2,
             ease: "sine.inOut",
-            duration: 2.2 + index * 0.45,
+            duration: 2.6 + index * 0.45,
             repeat: -1,
             yoyo: true,
-            delay: index * 0.5,
+            delay: index * 0.4,
           },
         );
-        // a slower gust drifts the whole card side to side a touch
-        gsap.to(card, {
-          xPercent: index % 2 === 0 ? 3 : -3,
-          ease: "sine.inOut",
-          duration: 3.6 + index * 0.4,
-          repeat: -1,
-          yoyo: true,
-          delay: index * 0.3,
-        });
       });
 
-      // Each card's scene breathes with a slow zoom: it eases out a touch then
-      // back in, always staying above the cover threshold so the artwork never
-      // pulls away from the card edge (no white border peeking through).
+      // Each card's scene breathes with a slow zoom, but only while the card is
+      // on screen — offscreen cards pause so we never run 9 infinite tweens at
+      // once. Stays above the cover threshold so no white edge is exposed.
       gsap.utils.toArray<HTMLElement>(".invite-wash-img").forEach((img, index) => {
-        gsap.fromTo(
+        const tween = gsap.fromTo(
           img,
           { scale: 1.09 },
           {
@@ -189,9 +213,15 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
             ease: "sine.inOut",
             repeat: -1,
             yoyo: true,
-            delay: index * 0.4,
+            paused: true,
           },
         );
+        ScrollTrigger.create({
+          trigger: img.closest("[data-section]") ?? img,
+          start: "top bottom",
+          end: "bottom top",
+          onToggle: (self) => (self.isActive ? tween.play() : tween.pause()),
+        });
       });
 
       // Hero cue scrolls smoothly to the next page through Lenis.
@@ -200,10 +230,9 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
       ScrollTrigger.refresh();
 
       return () => {
-        cueCleanups.forEach((fn) => fn());
+        baseCleanup();
         gsap.ticker.remove(tick);
         lenis.destroy();
-        ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
       };
     },
     { scope: rootRef },
