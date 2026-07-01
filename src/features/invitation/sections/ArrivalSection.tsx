@@ -7,7 +7,7 @@ export function ArrivalSection() {
   // Para añadir la ecografía real: coloca el archivo en public/assets/photos/
   // y escribe la ruta aquí (ej: "/assets/photos/ecografia.jpg").
   // Si queda vacío se muestra un marco decorativo de respaldo.
-  const ultrasoundSrc = "";
+  const ultrasoundSrc = "/assets/photos/ecografia.jpeg";
 
   return (
     <InvitationPage id="llegada" wash="parents" align="center" tone="page-arrival">

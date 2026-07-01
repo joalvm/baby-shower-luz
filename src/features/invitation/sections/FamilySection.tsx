@@ -12,9 +12,9 @@ export function FamilySection() {
   // y escribe la ruta en `src` (ej: "/assets/photos/mama.jpg").
   // Si `src` queda vacío se muestra la inicial del nombre como respaldo.
   const photos = [
-    { role: "Mamá", name: motherName, src: "" },
-    { role: "Papá", name: fatherName, src: "" },
-    { role: "Hermana", name: sisterName, src: "" },
+    { role: "Mamá", name: motherName, src: "/assets/photos/mama.jpeg" },
+    { role: "Papá", name: fatherName, src: "/assets/photos/papa.jpeg" },
+    { role: "Hermana", name: sisterName, src: "/assets/photos/hermana.jpeg" },
   ];
 
   return (
