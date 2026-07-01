@@ -42,7 +42,7 @@ export function InvitationPage({
       id={id}
     >
       <article className="invite-card">
-        <div className="invite-wash" data-drift="0.35">
+        <div className="invite-wash">
           <Image
             src={withBasePath(`/assets/optimized/story/${wash}-wash.webp`)}
             alt=""

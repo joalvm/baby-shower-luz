@@ -58,11 +58,11 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
       if (ambientRef.current) {
         gsap.fromTo(
           ambientRef.current,
-          { yPercent: -3, scale: 1.02 },
+          { yPercent: -1.5, scale: 1.01 },
           {
             ease: "none",
-            yPercent: 3,
-            scale: 1.05,
+            yPercent: 1.5,
+            scale: 1.03,
             scrollTrigger: {
               trigger: rootRef.current,
               start: "top top",
@@ -175,17 +175,23 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
         });
       });
 
-      // Each invitation card breathes with a very slight zoom in / out.
-      gsap.utils.toArray<HTMLElement>(".invite-card").forEach((card, index) => {
-        gsap.to(card, {
-          scale: 1.014,
-          transformOrigin: "center center",
-          duration: 4.2 + (index % 3) * 0.7,
-          ease: "sine.inOut",
-          repeat: -1,
-          yoyo: true,
-          delay: index * 0.4,
-        });
+      // Each card's scene breathes with a slow zoom: it eases out a touch then
+      // back in, always staying above the cover threshold so the artwork never
+      // pulls away from the card edge (no white border peeking through).
+      gsap.utils.toArray<HTMLElement>(".invite-wash-img").forEach((img, index) => {
+        gsap.fromTo(
+          img,
+          { scale: 1.09 },
+          {
+            scale: 1.045,
+            transformOrigin: "center center",
+            duration: 5 + (index % 3) * 0.8,
+            ease: "sine.inOut",
+            repeat: -1,
+            yoyo: true,
+            delay: index * 0.4,
+          },
+        );
       });
 
       // Hero cue scrolls smoothly to the next page through Lenis.
