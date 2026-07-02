@@ -43,9 +43,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: getAbsoluteUrl("/meta/og-invitation.png"),
-        width: 1492,
-        height: 1054,
+        url: getAbsoluteUrl("/meta/og-invitation.jpg"),
+        width: 1200,
+        height: 848,
+        type: "image/jpeg",
         alt: "My Baby Shower de Amber Eileen. Sábado 18 de julio de 2026, 7:30 PM.",
       },
     ],
@@ -54,7 +55,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.title,
     description: siteConfig.description,
-    images: [getAbsoluteUrl("/meta/og-invitation.png")],
+    images: [getAbsoluteUrl("/meta/og-invitation.jpg")],
   },
   robots: {
     index: true,
