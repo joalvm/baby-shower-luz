@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     canonical: siteConfig.url,
   },
   category: "event",
-  manifest: "/manifest.webmanifest",
+  manifest: getAbsoluteUrl("/manifest.webmanifest"),
   icons: {
     icon: [
       { url: getAbsoluteUrl("/meta/favicon-32.png"), sizes: "32x32", type: "image/png" },

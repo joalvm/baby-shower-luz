@@ -10,7 +10,7 @@ export function HeroSection() {
   const words = babyName.split(" ");
 
   return (
-    <InvitationPage id="inicio" wash="hero" align="center" tone="page-hero" priority>
+    <InvitationPage id="inicio" wash="hero" align="center" tone="page-hero" priority next="#promesa">
       <p className="page-eyebrow" data-reveal>
         <Icon name="sparkle" /> My Baby Shower
       </p>
@@ -31,15 +31,6 @@ export function HeroSection() {
       <p className="page-lead" data-reveal>
         Un rinconcito del bosque encantado para celebrar su dulce llegada.
       </p>
-      <button
-        type="button"
-        className="scroll-cue"
-        data-reveal
-        data-scroll-to="#familia"
-        aria-label="Ver la invitación"
-      >
-        <Icon name="chevron-down" />
-      </button>
     </InvitationPage>
   );
 }

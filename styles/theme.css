@@ -30,12 +30,12 @@
   --radius-chip: 0.95rem;
 
   /* Invitation card sizing (portrait 941:1672 ≈ 9:16) */
-  --card-w: min(92vw, 27rem);
+  --card-w: min(94vw, 27rem);
   --card-ratio: 941 / 1672;
 
   --font-title: "Sacramento";
   --font-body: "Nunito";
-  --page-x: clamp(1rem, 4vw, 2.5rem);
+  --page-x: clamp(0.7rem, 3vw, 2.5rem);
 }
 
 @theme inline {

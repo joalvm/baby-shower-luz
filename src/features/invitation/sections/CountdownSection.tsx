@@ -8,7 +8,7 @@ export function CountdownSection() {
   const { babyName } = useInvitation();
 
   return (
-    <InvitationPage id="cuenta" wash="opening" align="center" tone="page-countdown">
+    <InvitationPage id="cuenta" wash="opening" align="center" tone="page-countdown" next="#bendicion">
       <p className="page-eyebrow" data-reveal>
         Falta muy poco
       </p>

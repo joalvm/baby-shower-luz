@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Lenis from "lenis";
 import { withBasePath } from "@/utils/assets/withBasePath";
 import "@/utils/gsap/registerGsap";
 
@@ -52,17 +51,20 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
 
           gsap.fromTo(
             items,
-            { autoAlpha: 0, y: 24 },
+            { autoAlpha: 0, y: 46, scale: 0.94 },
             {
               autoAlpha: 1,
               y: 0,
-              duration: 0.8,
+              scale: 1,
+              duration: 0.95,
               ease: "power3.out",
-              stagger: 0.08,
+              stagger: 0.13,
               scrollTrigger: {
                 trigger: section,
                 start: "top 72%",
-                toggleActions: "play none none reverse",
+                // Touch: reveal once and leave it — reversing on snap-back re-runs
+                // the tween every time you page up, which stutters on weak GPUs.
+                toggleActions: coarse ? "play none none none" : "play none none reverse",
               },
             },
           );
@@ -97,19 +99,14 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
       }
 
       // ---- Full experience (capable devices) -------------------------------
-      const lenis = new Lenis({
-        lerp: 0.09,
-        smoothWheel: true,
-        touchMultiplier: 1.1,
-        wheelMultiplier: 0.9,
-      });
-      const tick = (time: number) => lenis.raf(time * 1000);
-      lenis.on("scroll", ScrollTrigger.update);
-      gsap.ticker.add(tick);
-      gsap.ticker.lagSmoothing(0);
+      // Native scroll drives the CSS scroll-snap pager (TikTok-style). No Lenis
+      // here: smooth-wheel hijacking fights `scroll-snap-type: mandatory` and
+      // makes the snap feel rubbery. ScrollTrigger listens to native scroll.
 
-      // Ambient scenery breathes very slightly through the scroll.
-      if (ambientRef.current) {
+      // Ambient scenery breathes very slightly through the scroll. Scrub tweens
+      // recalc a transform on every scroll frame; on touch that fights the native
+      // snap and adds scroll jank, so parallax is desktop-only.
+      if (ambientRef.current && !coarse) {
         gsap.fromTo(
           ambientRef.current,
           { yPercent: -1.5, scale: 1.01 },
@@ -130,25 +127,28 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
       buildReveals();
 
       // Subtle layered drift: sprites and washes move at their own depth.
-      gsap.utils.toArray<HTMLElement>("[data-drift]").forEach((item) => {
-        const depth = Number(item.dataset.drift ?? 1);
-        if (!depth) return;
+      // Also scrub-linked, so desktop-only for the same scroll-cost reason.
+      if (!coarse) {
+        gsap.utils.toArray<HTMLElement>("[data-drift]").forEach((item) => {
+          const depth = Number(item.dataset.drift ?? 1);
+          if (!depth) return;
 
-        gsap.fromTo(
-          item,
-          { yPercent: 6 * depth },
-          {
-            yPercent: -6 * depth,
-            ease: "none",
-            scrollTrigger: {
-              trigger: item.closest("[data-section]") ?? item,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 1.1,
+          gsap.fromTo(
+            item,
+            { yPercent: 6 * depth },
+            {
+              yPercent: -6 * depth,
+              ease: "none",
+              scrollTrigger: {
+                trigger: item.closest("[data-section]") ?? item,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1.1,
+              },
             },
-          },
-        );
-      });
+          );
+        });
+      }
 
       // Gentle idle bob for floating decorations.
       gsap.utils.toArray<HTMLElement>("[data-float]").forEach((item, index) => {
@@ -205,9 +205,9 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
       gsap.utils.toArray<HTMLElement>(".invite-wash-img").forEach((img, index) => {
         const tween = gsap.fromTo(
           img,
-          { scale: 1.09 },
+          { scale: 1.07 },
           {
-            scale: 1.045,
+            scale: 1.05,
             transformOrigin: "center center",
             duration: 5 + (index % 3) * 0.8,
             ease: "sine.inOut",
@@ -224,16 +224,14 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
         });
       });
 
-      // Hero cue scrolls smoothly to the next page through Lenis.
-      wireScrollCues((target) => lenis.scrollTo(target, { duration: 1.1 }));
+      // Hero cue scrolls smoothly to the next page (snap catches the landing).
+      wireScrollCues((target) =>
+        document.querySelector(target)?.scrollIntoView({ behavior: "smooth", block: "start" }),
+      );
 
       ScrollTrigger.refresh();
 
-      return () => {
-        baseCleanup();
-        gsap.ticker.remove(tick);
-        lenis.destroy();
-      };
+      return baseCleanup;
     },
     { scope: rootRef },
   );

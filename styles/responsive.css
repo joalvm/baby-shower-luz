@@ -3,7 +3,7 @@
 /* Small phones — keep the card comfy and the content breathing. */
 @media (max-width: 380px) {
   :root {
-    --card-w: 94vw;
+    --card-w: 96vw;
   }
 
   .invite-content {

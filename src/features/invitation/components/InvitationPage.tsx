@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { withBasePath } from "@/utils/assets/withBasePath";
+import { Icon } from "@/shared/ui/Icon";
 
 type WashName =
   | "hero"
@@ -23,6 +24,8 @@ type InvitationPageProps = {
   decor?: ReactNode;
   /** eager-load the wash (hero only) */
   priority?: boolean;
+  /** css selector of the next section — renders a scroll cue that jumps to it */
+  next?: string;
   children: ReactNode;
 };
 
@@ -33,6 +36,7 @@ export function InvitationPage({
   tone,
   decor,
   priority = false,
+  next,
   children,
 }: InvitationPageProps) {
   return (
@@ -55,6 +59,17 @@ export function InvitationPage({
         <div className={`invite-scrim invite-scrim-${align}`} aria-hidden="true" />
         {decor ? <div className="invite-decor">{decor}</div> : null}
         <div className={`invite-content invite-content-${align}`}>{children}</div>
+        {next ? (
+          <button
+            type="button"
+            className="scroll-cue"
+            data-reveal
+            data-scroll-to={next}
+            aria-label="Ver la siguiente sección"
+          >
+            <Icon name="chevron-down" />
+          </button>
+        ) : null}
       </article>
     </section>
   );

@@ -9,7 +9,7 @@ export function RsvpSection() {
   const { babyName, rsvpUrl } = useInvitation();
 
   return (
-    <InvitationPage id="confirmar" wash="rsvp" align="center" tone="page-rsvp">
+    <InvitationPage id="confirmar" wash="rsvp" align="center" tone="page-rsvp" next="#despedida">
       <p className="page-eyebrow" data-reveal>
         Confirma tu asistencia
       </p>

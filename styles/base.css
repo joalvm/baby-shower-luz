@@ -7,12 +7,18 @@ html {
   color: var(--color-foreground);
   font-feature-settings: "kern" 1, "liga" 1;
   text-rendering: optimizeLegibility;
+  /* TikTok-style pager: the window is the snap container, each invite-page is
+     a full-viewport snap target. `clip` on body (below) keeps html as the
+     definitive scroller so this snap-type actually applies. */
+  scroll-snap-type: y mandatory;
 }
 
 body {
   min-width: 320px;
   margin: 0;
-  overflow-x: hidden;
+  /* `clip` (not `hidden`) so body never gets promoted to a scroll container,
+     which would steal snapping away from html. */
+  overflow-x: clip;
   background: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-body);

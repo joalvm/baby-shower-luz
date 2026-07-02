@@ -24,6 +24,10 @@ export function IntroCurtain() {
   // Lock scroll while the curtain is up; release + kill any running tween on unmount.
   useEffect(() => {
     const root = document.documentElement;
+    // The curtain always opens on the hero, so don't let the browser restore a
+    // mid-page scroll position from the previous visit — otherwise tapping the
+    // seal drops the reader onto whatever card they left off on.
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     root.classList.add("intro-locked");
     return () => {
       root.classList.remove("intro-locked");
@@ -34,6 +38,9 @@ export function IntroCurtain() {
   const finish = useCallback(() => {
     setDismissed(true);
     document.documentElement.classList.remove("intro-locked");
+    // Snap to the hero before the page becomes scrollable again (the lock's
+    // overflow:hidden pins any restored offset until now).
+    window.scrollTo(0, 0);
     // Let ScrollExperience recompute trigger positions now the page can scroll.
     window.dispatchEvent(new CustomEvent("intro:open"));
   }, []);

@@ -10,7 +10,7 @@ export function ArrivalSection() {
   const ultrasoundSrc = "/assets/photos/ecografia.jpeg";
 
   return (
-    <InvitationPage id="llegada" wash="parents" align="center" tone="page-arrival">
+    <InvitationPage id="llegada" wash="parents" align="center" tone="page-arrival" next="#cuenta">
       <p className="page-eyebrow" data-reveal>
         <Icon name="sparkle" /> Un adelanto
       </p>

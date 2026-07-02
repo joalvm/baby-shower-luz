@@ -18,7 +18,7 @@ export function FamilySection() {
   ];
 
   return (
-    <InvitationPage id="familia" wash="name" align="center" tone="page-family">
+    <InvitationPage id="familia" wash="name" align="center" tone="page-family" next="#llegada">
       <p className="page-eyebrow" data-reveal>
         CON TODO EL AMOR E ILUSIÓN
       </p>

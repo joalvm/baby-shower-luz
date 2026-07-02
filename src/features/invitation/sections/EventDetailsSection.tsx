@@ -10,7 +10,7 @@ export function EventDetailsSection() {
   const { mapsUrl } = useInvitation();
 
   return (
-    <InvitationPage id="evento" wash="details" align="center" tone="page-event">
+    <InvitationPage id="evento" wash="details" align="center" tone="page-event" next="#confirmar">
       <p className="page-eyebrow" data-reveal>
         Los detalles
       </p>

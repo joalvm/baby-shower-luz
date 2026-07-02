@@ -98,10 +98,19 @@
 --------------------------------------------------------------------------- */
 .invite-page {
   display: flex;
+  align-items: center;
   justify-content: center;
   width: 100%;
+  /* each page fills one screen; the card floats centered with ambient air
+     around it (not full-bleed). `svh` (not `dvh`) so the snap points don't
+     shift while the mobile URL bar collapses — that reflow was the "empujón"
+     where a card almost lands then jerks the rest of the way. */
+  min-height: 100svh;
   padding-block: clamp(0.5rem, 1.5vh, 1.1rem);
   padding-inline: var(--page-x);
+  /* TikTok pager: rest on this card. (No `scroll-snap-stop: always` — it
+     truncated touch momentum and made the landing feel like it stuttered.) */
+  scroll-snap-align: center;
 }
 
 .page-hero {
@@ -117,11 +126,15 @@
   display: flex;
   flex-direction: column;
   width: var(--card-w);
-  min-height: calc(var(--card-w) * 1672 / 941);
+  /* cap the height so there's always ambient air around the card (never
+     edge-to-edge). The card itself stays vertically centered in its screen;
+     the slight above-center bias lives on the inner content, not here. */
+  min-height: min(calc(var(--card-w) * 1672 / 941), 90svh);
   border-radius: var(--radius-card);
   overflow: hidden;
   box-shadow: var(--shadow-card);
   background: var(--color-cream);
+  align-self: stretch;
 }
 
 .invite-wash {
@@ -262,8 +275,9 @@
 
 .scroll-cue {
   position: absolute;
-  bottom: clamp(1.1rem, 4%, 1.8rem);
-  left: 50%;
+  z-index: 4;
+  bottom: clamp(1.1rem, 2%, 1.8rem);
+  left: 10%;
   display: grid;
   place-items: center;
   width: 2.35rem;
@@ -883,6 +897,9 @@
   z-index: 1;
   padding: 1rem 1rem 2.25rem;
   text-align: center;
+  /* under mandatory snap the footer needs its own snap point, otherwise it
+     becomes unreachable (snap keeps pulling back to the last card). */
+  scroll-snap-align: end;
   color: rgba(106, 74, 85, 0.32);
   font-family: var(--font-body);
   font-size: 0.58rem;
@@ -893,4 +910,28 @@
 .site-credit span {
   color: rgba(106, 74, 85, 0.42);
   font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------------
+   Touch performance
+   backdrop-filter blur is the single heaviest GPU cost on this page: the
+   browser re-blurs the scene behind every panel on each frame, so while a card
+   reveal tweens scale/opacity the blur is recomputed continuously — that's the
+   stutter on weaker phones. Drop the live blur on touch and lean on a more
+   opaque panel fill so text stays legible without it.
+--------------------------------------------------------------------------- */
+@media (hover: none) and (pointer: coarse) {
+  :root {
+    --panel-bg: rgba(255, 252, 246, 0.94);
+    --panel-bg-strong: rgba(255, 252, 246, 0.96);
+  }
+
+  .family-roles,
+  .countdown,
+  .event-card,
+  .animated-button-soft,
+  .sound-toggle {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
