@@ -292,11 +292,21 @@
   box-shadow: var(--shadow-soft);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  /* Hidden until its card is the one centered in the viewport — otherwise the
+     cue of the card that scrolled up stays lit and looks messy. */
+  opacity: 0;
+  pointer-events: none;
   transition:
     transform 200ms ease,
     background 200ms ease,
-    box-shadow 200ms ease;
+    box-shadow 200ms ease,
+    opacity 320ms ease;
   animation: scroll-cue-bob 2.1s ease-in-out infinite;
+}
+
+.invite-page.is-active .scroll-cue {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .scroll-cue:hover {

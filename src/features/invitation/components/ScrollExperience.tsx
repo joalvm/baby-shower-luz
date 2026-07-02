@@ -71,6 +71,21 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
         });
       };
 
+      // Mark the card that currently covers the viewport centre as active. The
+      // scroll cue is shown via CSS only on `.is-active`, so the cue of a card
+      // that scrolled up disappears instead of staying lit. Cheap (class toggle,
+      // no scrub), so it runs on every path — touch and desktop alike.
+      const wireActiveState = () => {
+        gsap.utils.toArray<HTMLElement>("[data-section]").forEach((section) => {
+          ScrollTrigger.create({
+            trigger: section,
+            start: "top center",
+            end: "bottom center",
+            toggleClass: { targets: section, className: "is-active" },
+          });
+        });
+      };
+
       // Re-measure trigger positions once the intro curtain releases the scroll.
       const onIntroOpen = () => ScrollTrigger.refresh();
       window.addEventListener("intro:open", onIntroOpen);
@@ -82,6 +97,7 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
 
       if (reduceMotion) {
         gsap.set("[data-reveal]", { autoAlpha: 1, y: 0 });
+        wireActiveState();
         wireScrollCues((target) =>
           document.querySelector(target)?.scrollIntoView({ behavior: "smooth", block: "start" }),
         );
@@ -91,6 +107,7 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
       if (liteMode) {
         // Native scroll (no Lenis) + reveals only. No scrub, no idle loops.
         buildReveals();
+        wireActiveState();
         wireScrollCues((target) =>
           document.querySelector(target)?.scrollIntoView({ behavior: "smooth", block: "start" }),
         );
@@ -125,6 +142,7 @@ export function ScrollExperience({ children }: ScrollExperienceProps) {
       }
 
       buildReveals();
+      wireActiveState();
 
       // Subtle layered drift: sprites and washes move at their own depth.
       // Also scrub-linked, so desktop-only for the same scroll-cost reason.

@@ -11,6 +11,8 @@ function buildInvitationConfig() {
   const address =
     process.env.ADDRESS ?? "Villa Hermosa MZ. M LT. 09 - Calle las Begonias";
   const coordinates = process.env.ADDRESS_COORDINATES ?? "-5.173020,-80.690175";
+  // wa.me expects digits only, country code first, no "+" or spaces.
+  const rsvpPhone = (process.env.RSVP_PHONE ?? "51940414526").replace(/\D/g, "");
   const normalizedEventDateTime = normalizeLimaDateTime(eventDateTime);
   const birthDateTime = normalizeLimaDateTime(birthDate);
 
@@ -26,7 +28,7 @@ function buildInvitationConfig() {
       coordinates,
     )}`,
     motherName,
-    rsvpUrl: `https://wa.me/?text=${encodeURIComponent(
+    rsvpUrl: `https://wa.me/${rsvpPhone}?text=${encodeURIComponent(
       `Confirmo mi asistencia al Baby Shower de ${babyName}.`,
     )}`,
     sisterName,

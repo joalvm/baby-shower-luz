@@ -63,7 +63,6 @@ export function InvitationPage({
           <button
             type="button"
             className="scroll-cue"
-            data-reveal
             data-scroll-to={next}
             aria-label="Ver la siguiente sección"
           >
